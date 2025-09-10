@@ -157,11 +157,19 @@ local function getBoundingBox(parts)
         local worldMax = (cframe + halfSize).Position
         
         if not min then
-            min = worldMin:Clone()
-            max = worldMax:Clone()
+            min = worldMin
+            max = worldMax
         else
-            min = Vector3.new(math.min(min.X, worldMin.X), math.min(min.Y, worldMin.Y), math.min(min.Z, worldMin.Z))
-            max = Vector3.new(math.max(max.X, worldMax.X), math.max(max.Y, worldMax.Y), math.max(max.Z, worldMax.Z))
+            min = Vector3.new(
+                math.min(min.X, worldMin.X), 
+                math.min(min.Y, worldMin.Y), 
+                math.min(min.Z, worldMin.Z)
+            )
+            max = Vector3.new(
+                math.max(max.X, worldMax.X), 
+                math.max(max.Y, worldMax.Y), 
+                math.max(max.Z, worldMax.Z)
+            )
         end
     end
 
