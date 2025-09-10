@@ -1,5 +1,4 @@
-return function(utility)
-    local esp_table = {}
+local esp_table = {}
     local workspace = cloneref(game:GetService("Workspace"))
     local rservice = cloneref(game:GetService("RunService"))
     local plrs = cloneref(game:GetService("Players"))
@@ -483,4 +482,3 @@ return function(utility)
     end
 
     return esp_table
-end
