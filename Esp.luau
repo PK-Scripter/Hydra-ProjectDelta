@@ -144,38 +144,20 @@ local function isBodyPart(name)
     return BODY_PARTS[name] == true
 end
 
-local function getBoundingBox(parts)
-    if #parts == 0 then return nil end
-    
-    local min, max
-    for i = 1, #parts do
-        local part = parts[i]
-        local cframe, size = part.CFrame, part.Size
-        local halfSize = size * 0.5
-        
-        local worldMin = (cframe - halfSize).Position
-        local worldMax = (cframe + halfSize).Position
-        
-        if not min then
-            min = worldMin
-            max = worldMax
-        else
-            min = Vector3.new(
-                math.min(min.X, worldMin.X), 
-                math.min(min.Y, worldMin.Y), 
-                math.min(min.Z, worldMin.Z)
-            )
-            max = Vector3.new(
-                math.max(max.X, worldMax.X), 
-                math.max(max.Y, worldMax.Y), 
-                math.max(max.Z, worldMax.Z)
-            )
-        end
-    end
+     local function getBoundingBox(parts)
+        local min, max
+        for i = 1, #parts do
+            local part = parts[i]
+            local cframe, size = part.CFrame, part.Size
 
-    local center = (min + max) * 0.5
-    return CFrame.new(center, Vector3.new(center.X, center.Y, max.Z)), max - min
-end
+            min = Vector3.zero.Min(min or cframe.Position, (cframe - size * 0.5).Position)
+            max = Vector3.zero.Max(max or cframe.Position, (cframe + size * 0.5).Position)
+        end
+
+        local center = (min + max) * 0.5
+        local front = Vector3.new(center.X, center.Y, max.Z)
+        return CFrame.new(center, front), max - min
+    end
 
 local function worldToScreen(world)
     local screen, inBounds = camera:WorldToViewportPoint(world)
